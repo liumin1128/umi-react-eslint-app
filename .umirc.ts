@@ -1,5 +1,5 @@
 import { defineConfig } from 'umi';
-// import routes from './src/configs/routes';
+import routes from './src/configs/routes';
 // import theme from './src/configs/theme';
 
 export default defineConfig({
@@ -8,7 +8,7 @@ export default defineConfig({
   },
   hash: true,
   history: { type: 'hash' },
-  // routes: routes,
+  routes: routes,
   fastRefresh: {},
   // theme: theme,
   publicPath: './',
