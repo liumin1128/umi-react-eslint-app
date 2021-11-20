@@ -46,3 +46,12 @@ export const CreateRetro = gql`
     }
   }
 `;
+
+export const RETRO_SUBSCRIPTION = gql`
+  subscription retroCreated {
+    retroCreated {
+      _id
+      content
+    }
+  }
+`;
