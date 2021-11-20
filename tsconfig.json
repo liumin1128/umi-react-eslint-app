@@ -3,7 +3,7 @@
     "experimentalDecorators": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "lib": ["dom", "es2017"],
     "module": "esnext",
     "moduleResolution": "node",
