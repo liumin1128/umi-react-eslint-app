@@ -31,6 +31,12 @@ export default [
         title: 'Home',
         exact: true,
       },
+      {
+        path: '/dynamic',
+        component: '@/pages/dynamic',
+        title: 'Dynamic',
+        exact: true,
+      },
     ],
   },
 ];

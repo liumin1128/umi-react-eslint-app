@@ -10,19 +10,15 @@ import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { RetryLink } from '@apollo/client/link/retry';
 import { onError } from '@apollo/client/link/error';
 import { getStorage } from '@/utils/store';
-import { GRAPHQL, X_SESSTION_TOKEN } from '@/configs/base';
+import { GRAPHQL_URL, USER_TOKEN } from '@/configs/base';
 
 import typeDefs from './typeDefs';
 
 const httpLink = new BatchHttpLink({
-  uri: GRAPHQL,
+  uri: GRAPHQL_URL,
   batchMax: 5, // No more than 5 operations per batch
   batchInterval: 20, // Wait no more than 20ms after first batched operation
 });
-
-// const httpLink = createHttpLink({
-//   uri: GRAPHQL,
-// });
 
 // https://www.apollographql.com/docs/react/api/link/apollo-link-retry/
 const retryLink = new RetryLink({
@@ -38,11 +34,11 @@ const retryLink = new RetryLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = getStorage(X_SESSTION_TOKEN);
+  const token = getStorage(USER_TOKEN);
   return {
     headers: {
       ...headers,
-      'x-session-token': token || '',
+      Authorization: `Bearer ${token}`,
     },
   };
 });
@@ -63,7 +59,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const client = new ApolloClient({
   link: from([authLink, errorLink, retryLink, httpLink]),
-  // link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
   typeDefs: gql(`${typeDefs}`),
   queryDeduplication: false,
