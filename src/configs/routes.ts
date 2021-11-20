@@ -9,9 +9,15 @@ export default [
     ],
     routes: [
       {
-        path: '/',
-        component: '@/pages/home',
-        title: 'Home',
+        path: '/login',
+        component: '@/pages/login',
+        title: 'Login',
+        exact: true,
+      },
+      {
+        path: '/login/oauth',
+        component: '@/pages/login/oauth',
+        title: 'oauth',
         exact: true,
       },
     ],

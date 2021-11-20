@@ -1,9 +1,7 @@
-import * as React from 'react';
-
-// interface IHomeProps {}
-
-const Home: React.FunctionComponent = () => {
-  return <>login</>;
-};
-
-export default Home;
+export default function Home() {
+  return (
+    <div>
+      <a href="http://127.0.0.1:3101/oauth/github">github</a>
+    </div>
+  );
+}
