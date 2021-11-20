@@ -1,6 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "extends": ["react-app","plugin:@typescript-eslint/recommended", "airbnb", "airbnb/hooks", "prettier", "plugin:prettier/recommended", "plugin:react/jsx-runtime"],
+  "extends": ["react-app", "plugin:@typescript-eslint/recommended", "airbnb", "airbnb/hooks", "prettier", "plugin:prettier/recommended", "plugin:react/jsx-runtime"],
   "plugins": ["@typescript-eslint/eslint-plugin", "react", "babel"],
   "env": {
     "es6": true,
@@ -28,7 +28,7 @@
     "@typescript-eslint/explicit-function-return-type": [0],
     // "@typescript-eslint/member-delimiter-style": [0],
     "@typescript-eslint/explicit-module-boundary-types": [0],
-    "@typescript-eslint/no-explicit-any": [0],
+    "@typescript-eslint/no-explicit-any": [2],
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -38,6 +38,22 @@
         "ts": "never",
         "tsx": "never"
       }
-    ]
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [{
+          "name": "@mui/material",
+          "message": "请不要直接引用整个@mui/material包，可以按需单独导入需要的组件"
+        }, {
+          "name": "antd",
+          "message": "尽量不要使用antd"
+        }]
+      }
+    ],
+    "no-underscore-dangle": "off",
+    "@typescript-eslint/no-unused-vars": [2],
+    "react/require-default-props": "off",
+    "react/function-component-definition": "off"
   }
 }

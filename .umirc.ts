@@ -1,6 +1,7 @@
 import { defineConfig } from 'umi';
 import routes from './src/configs/routes';
-// import theme from './src/configs/theme';
+
+// https://github.com/umijs/umi/issues/5165
 
 export default defineConfig({
   nodeModulesTransform: {
@@ -10,6 +11,5 @@ export default defineConfig({
   history: { type: 'hash' },
   routes: routes,
   fastRefresh: {},
-  // theme: theme,
   publicPath: './',
 });

@@ -1,0 +1,72 @@
+import {
+  gql,
+  ApolloClient,
+  // createHttpLink,
+  InMemoryCache,
+  from,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { BatchHttpLink } from '@apollo/client/link/batch-http';
+import { RetryLink } from '@apollo/client/link/retry';
+import { onError } from '@apollo/client/link/error';
+import { getStorage } from '@/utils/store';
+import { GRAPHQL, X_SESSTION_TOKEN } from '@/configs/base';
+
+import typeDefs from './typeDefs';
+
+const httpLink = new BatchHttpLink({
+  uri: GRAPHQL,
+  batchMax: 5, // No more than 5 operations per batch
+  batchInterval: 20, // Wait no more than 20ms after first batched operation
+});
+
+// const httpLink = createHttpLink({
+//   uri: GRAPHQL,
+// });
+
+// https://www.apollographql.com/docs/react/api/link/apollo-link-retry/
+const retryLink = new RetryLink({
+  delay: {
+    initial: 300,
+    max: Infinity,
+    jitter: true,
+  },
+  attempts: {
+    max: 5,
+    retryIf: (error) => !!error,
+  },
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = getStorage(X_SESSTION_TOKEN);
+  return {
+    headers: {
+      ...headers,
+      'x-session-token': token || '',
+    },
+  };
+});
+
+// https://www.apollographql.com/docs/react/api/link/apollo-link-error/
+// Log any GraphQL errors or network error that occurred
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.map(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+      ),
+    );
+  if (networkError) {
+    console.log(networkError);
+  }
+});
+
+const client = new ApolloClient({
+  link: from([authLink, errorLink, retryLink, httpLink]),
+  // link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+  typeDefs: gql(`${typeDefs}`),
+  queryDeduplication: false,
+});
+
+export default client;

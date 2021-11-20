@@ -1,7 +1,36 @@
 export default [
   {
+    path: '/login',
+    component: '@/layouts/login',
+    wrappers: [
+      '@/wrappers/material-ui',
+      '@/wrappers/apollo-provider',
+      // '@/wrappers/auth',
+    ],
+    routes: [
+      {
+        path: '/',
+        component: '@/pages/home',
+        title: 'Home',
+        exact: true,
+      },
+    ],
+  },
+  {
     path: '/',
-    component: '@/pages/index',
-    wrappers: ['@/wrappers/material-ui'],
+    component: '@/layouts/base',
+    wrappers: [
+      '@/wrappers/material-ui',
+      '@/wrappers/apollo-provider',
+      // '@/wrappers/auth',
+    ],
+    routes: [
+      {
+        path: '/',
+        component: '@/pages/home',
+        title: 'Home',
+        exact: true,
+      },
+    ],
   },
 ];
