@@ -43,6 +43,12 @@ export default [
         title: 'Dynamic',
         exact: true,
       },
+      {
+        path: '/retro',
+        component: '@/pages/retro',
+        title: 'Retro',
+        exact: true,
+      },
     ],
   },
 ];
