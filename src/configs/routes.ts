@@ -45,9 +45,20 @@ export default [
       },
       {
         path: '/retro',
-        component: '@/pages/retro',
-        title: 'Retro',
-        exact: true,
+        routes: [
+          {
+            path: '/retro/section',
+            component: '@/pages/retro/section',
+            title: 'Retro',
+            exact: true,
+          },
+          {
+            path: '/retro',
+            component: '@/pages/retro',
+            title: 'Retro List',
+            exact: true,
+          },
+        ],
       },
     ],
   },

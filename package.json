@@ -5,7 +5,7 @@
     "build": "umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.{js,jsx,tsx,ts}\" --quiet --fix",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.{js,jsx,tsx,ts}\" --quiet --cache --fix",
     "test": "umi-test",
     "test:coverage": "umi-test --coverage"
   },
@@ -18,7 +18,7 @@
     ],
     "*.ts?(x)": [
       "prettier --parser=typescript --write",
-      "eslint --quiet --fix"
+      "eslint --quiet --cache --fix"
     ]
   },
   "dependencies": {
