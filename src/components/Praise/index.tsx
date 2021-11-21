@@ -1,45 +1,73 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+import Box from '@mui/material/Box';
 import { ThumbsUpAni } from './canvas';
+
+const randomStr = () => Math.random().toString(36).slice(-6);
 
 interface IPraiseProps {
   test: string;
 }
 
-let thumbsUpAni;
-
 const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
   const { test } = props;
   console.log(test);
 
+  const [id] = useState(randomStr());
+  const [canvas, setCanvas] = useState();
+  console.log('id');
+  console.log(id);
+
+  // useEffect(() => {}, []);
+
+  function click() {
+    if (!canvas) {
+      const thumbsUpAni = new ThumbsUpAni(id);
+      setCanvas(thumbsUpAni);
+      setTimeout(() => {
+        thumbsUpAni.start();
+      }, 100);
+      return;
+    }
+    canvas.start();
+    // setInterval(() => {
+    //   thumbsUpAni.start();
+    // }, 300);
+  }
+
   return (
-    <>
-      22
-      <canvas
-        id="thumsCanvas"
-        width="200"
-        height="400"
-        // style="width:100px;height:200px"
-      />
+    <Box
+      sx={{
+        position: 'relative',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        // width: '100px',
+        // border: '1px solid red',
+
+        '& .canvas': {
+          // border: '1px solid red',
+          position: 'absolute',
+          bottom: 20,
+          pointerEvents: 'none',
+          margin: 'auto',
+          left: -1000,
+          right: -1000,
+          width: 200,
+          height: 400,
+        },
+      }}
+    >
+      <canvas className="canvas" id={id} width="200" height="400" />
+
       <button
         type="button"
         onClick={() => {
-          thumbsUpAni = new ThumbsUpAni();
-          // setInterval(() => {
-          //   thumbsUpAni.start();
-          // }, 300);
+          click();
         }}
       >
-        test
+        赞
       </button>
-      <button
-        type="button"
-        onClick={() => {
-          thumbsUpAni.start();
-        }}
-      >
-        start
-      </button>
-    </>
+    </Box>
   );
 };
 

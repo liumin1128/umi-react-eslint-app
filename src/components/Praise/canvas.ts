@@ -17,9 +17,9 @@ export class ThumbsUpAni {
   scanning = false;
   renderList = [];
   scaleTime = 0.1; // 百分比
-  constructor() {
+  constructor(id) {
     this.loadImages();
-    const canvas = document.getElementById('thumsCanvas');
+    const canvas = document.getElementById(id);
     this.context = canvas.getContext('2d');
     this.width = canvas.width;
     this.height = canvas.height;
@@ -120,7 +120,7 @@ export class ThumbsUpAni {
   }
   scan() {
     this.context.clearRect(0, 0, this.width, this.height);
-    this.context.fillStyle = '#f4f4f4';
+    this.context.fillStyle = 'rgba(255, 255, 255, 0)';
     this.context.fillRect(0, 0, 200, 400);
     let index = 0;
     let length = this.renderList.length;
