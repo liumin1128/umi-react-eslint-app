@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Card from '@/components/Retro/Card';
+import Piaise from '@/components/Praise';
 
 interface User {
   avatar: string;
@@ -21,6 +22,8 @@ const Item: React.FunctionComponent<IItemProps> = (props) => {
       </Avatar>
 
       {content}
+
+      <Piaise />
     </Card>
   );
 };
