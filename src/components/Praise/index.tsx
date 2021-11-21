@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { ThumbsUpAni } from './canvas';
 
 const randomStr = () => Math.random().toString(36).slice(-6);
@@ -47,7 +49,7 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
         '& .canvas': {
           // border: '1px solid red',
           position: 'absolute',
-          bottom: 20,
+          bottom: 32,
           pointerEvents: 'none',
           margin: 'auto',
           left: -1000,
@@ -59,14 +61,14 @@ const Praise: React.FunctionComponent<IPraiseProps> = (props) => {
     >
       <canvas className="canvas" id={id} width="200" height="400" />
 
-      <button
-        type="button"
+      <IconButton
         onClick={() => {
           click();
         }}
+        aria-label="zan"
       >
-        赞
-      </button>
+        <DeleteIcon />
+      </IconButton>
     </Box>
   );
 };
