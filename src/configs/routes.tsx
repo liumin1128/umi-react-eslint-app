@@ -3,13 +3,12 @@ export default [{
     // component: '@/layouts/base',
     wrappers: [
         '@/wrappers/sentry',
+        '@/wrappers/apollo',
         '@/wrappers/material-ui',
-        // '@/wrappers/apollo-provider',
     ],
     routes: [
         {
             path: '/',
-            // wrappers: ['@/layouts/retro'],
             component: '@/pages/index',
             title: 'Home',
             exact: true,
