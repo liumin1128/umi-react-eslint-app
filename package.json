@@ -3,19 +3,36 @@
   "author": "",
   "scripts": {
     "dev": "umi dev",
-    "build": "umi build",
+    "build": "UMI_ENV=production umi build",
     "postinstall": "umi setup",
     "setup": "umi setup",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "test:coverage": "umi-test --coverage",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.{js,jsx,tsx,ts}\" --quiet --cache --fix",
+    "codegen": "graphql-codegen --config codegen.yml"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
+    "@hookform/resolvers": "^2.9.7",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.1",
     "@sentry/react": "^7.11.1",
     "@sentry/tracing": "^7.11.1",
+    "axios": "^0.27.2",
     "dayjs": "^1.11.5",
     "graphql": "^16.6.0",
     "graphql-ws": "^5.10.1",
@@ -23,8 +40,11 @@
     "notistack": "^2.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.34.2",
     "store": "^2.0.12",
-    "umi": "^4.0.13"
+    "umi": "^4.0.13",
+    "uuid": "^8.3.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",

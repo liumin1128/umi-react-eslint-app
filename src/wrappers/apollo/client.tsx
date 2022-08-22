@@ -1,9 +1,5 @@
 import { history } from 'umi';
-import {
-    gql,
-    split, InMemoryCache, ApolloClient,
-    from,
-} from '@apollo/client';
+import { gql, split, InMemoryCache, ApolloClient, from } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { setContext } from '@apollo/client/link/context';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
@@ -15,14 +11,16 @@ import { USER_TOKEN } from '@/configs/base';
 import { onError } from '@apollo/client/link/error';
 import typeDefs from './typeDefs';
 
-const wsLink = new GraphQLWsLink(createClient({
+const wsLink = new GraphQLWsLink(
+  createClient({
     url: process.env.GRAPHQL_URL_WS as string,
-}));
+  }),
+);
 
 const httpLink = new BatchHttpLink({
-    uri: process.env.GRAPHQL_URL,
-    batchMax: 5, // No more than 5 operations per batch
-    batchInterval: 20, // Wait no more than 20ms after first batched operation
+  uri: process.env.GRAPHQL_URL,
+  batchMax: 5, // No more than 5 operations per batch
+  batchInterval: 20, // Wait no more than 20ms after first batched operation
 });
 
 // const httpLink = new HttpLink({
@@ -35,58 +33,56 @@ const httpLink = new BatchHttpLink({
 // * The Link to use for an operation if the function returns a "truthy" value
 // * The Link to use for an operation if the function returns a "falsy" value
 const splitLink = split(
-    ({ query }) => {
-        const definition = getMainDefinition(query);
-        return (
-            definition.kind === 'OperationDefinition' &&
-            definition.operation === 'subscription'
-        );
-    },
-    wsLink,
-    httpLink,
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httpLink,
 );
 
 const retryLink = new RetryLink({
-    delay: {
-        initial: 300,
-        max: Infinity,
-        jitter: true,
-    },
-    attempts: {
-        max: 5,
-        retryIf: (error) => !!error,
-    },
+  delay: {
+    initial: 300,
+    max: Infinity,
+    jitter: true,
+  },
+  attempts: {
+    max: 5,
+    retryIf: (error) => !!error,
+  },
 });
 
 const authLink = setContext((_, { headers }) => {
-    const token = getStorage(USER_TOKEN);
-    return {
-        headers: {
-            ...headers,
-            Authorization: `Bearer ${token}`,
-        },
-    };
+  const token = getStorage(USER_TOKEN);
+  return {
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${token}`,
+    },
+  };
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-    console.log('errorLink networkError:', networkError);
-    console.log('errorLink graphQLErrors:', graphQLErrors);
-    if (graphQLErrors) {
-        graphQLErrors.forEach((i) => {
-            if (i.extensions.code === 'UNAUTHENTICATED') {
-                history.push('/login');
-            }
-        });
-    }
+  console.log('errorLink networkError:', networkError);
+  console.log('errorLink graphQLErrors:', graphQLErrors);
+  if (graphQLErrors) {
+    graphQLErrors.forEach((i) => {
+      if (i.extensions.code === 'UNAUTHENTICATED') {
+        history.push('/login');
+      }
+    });
+  }
 });
-
 
 const client = new ApolloClient({
-    link: from([authLink, errorLink, retryLink, splitLink]),
-    cache: new InMemoryCache(),
-    typeDefs: gql(`${typeDefs}`),
-    queryDeduplication: false,
-
+  link: from([authLink, errorLink, retryLink, splitLink]),
+  cache: new InMemoryCache(),
+  typeDefs: gql(`${typeDefs}`),
+  queryDeduplication: false,
 });
 
-export default client
+export default client;
