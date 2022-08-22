@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "umi dev",
     "build": "UMI_ENV=production umi build",
+    "analyze": "UMI_ENV=production ANALYZE=1 umi build",
     "postinstall": "umi setup",
     "setup": "umi setup",
     "start": "npm run dev",
